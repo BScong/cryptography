@@ -15,13 +15,48 @@ public class CryptoLib {
 	public static int[] EEA(int a, int b) {
 		// Note: as you can see in the test suite,
 		// your function should work for any (positive) value of a and b.
-		int gcd = -1;
-		int s = -1;
-		int t = -1;
+		boolean swapped = false;
+		if (b>=a){
+			swapped = true;
+			int swap = b;
+			b=a;
+			a=swap;
+		}
+
+		int gcd = b;
+		int s = 0;
+		int t = 1;
+		int old_gcd = a;
+		int old_s = 1;
+		int old_t = 0;
+		int tmp;
+
+		while (gcd!=0){
+			int q = old_gcd/gcd;
+
+			tmp = gcd;
+			gcd = old_gcd-q*tmp;
+			old_gcd = tmp;
+
+			tmp = s;
+			s = old_s-q*tmp;
+			old_s = tmp;
+
+			tmp = t;
+			t = old_t-q*tmp;
+			old_t = tmp;
+			//System.out.println(gcd+" "+s+" "+t);
+		}
+
 		int[] result = new int[3];
-		result[0] = gcd;
-		result[1] = s;
-		result[2] = t;
+		result[0] = old_gcd;
+		if(swapped){
+			tmp = old_s;
+			old_s=old_t;
+			old_t = tmp;
+		}
+		result[1] = old_s;
+		result[2] = old_t;
 		return result;
 	}
 
@@ -49,15 +84,35 @@ public class CryptoLib {
 	 * modular inverse does not exist.
 	 **/
 	public static int ModInv(int n, int m) {
-		return -1;
+		//ns+mt=1
+		int[] eea = EEA(n<0?n+m:n,m);
+		//System.out.println(eea[0] + " "+eea[1]+ " "+eea[2]);
+		int gcd = eea[0];
+		if (gcd!=1){
+			return 0; 
+		}
+		int v = eea[1];
+		if(v<0){
+			v=v+m;
+		}
+		return v;
 	}
 
 	/**
 	 * Returns 0 if "n" is a Fermat Prime, otherwise it returns the lowest
 	 * Fermat Witness. Tests values from 2 (inclusive) to "n/3" (exclusive).
 	 **/
-	public static int FermatPT(int n) {
-		return -1;
+	public static int FermatPT(int n) {	
+		for(int a=2;a<n/3;a++){
+			int composite = 1;
+			for(int i=0;i<n-1;i++){
+				composite=(composite*a)%n;
+			}
+			if(composite != 1){
+				return a;
+			}
+		}
+		return 0;
 	}
 
 	/**
