@@ -70,7 +70,18 @@ public class CryptoLib {
 	 * modular inverse does not exist.
 	 **/
 	public static int ModInv(int n, int m) {
-		return -1;
+		//ns+mt=1
+		int[] eea = EEA(n<0?n+m:n,m);
+		//System.out.println(eea[0] + " "+eea[1]+ " "+eea[2]);
+		int gcd = eea[0];
+		if (gcd!=1){
+			return 0; 
+		}
+		int v = eea[1];
+		if(v<0){
+			v=v+m;
+		}
+		return v;
 	}
 
 	/**
