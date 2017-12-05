@@ -34,6 +34,19 @@ public class CBCXor {
 	 *            block is 12 bytes long.
 	 */
 	private static String recoverMessage(byte[] first_block, byte[] encrypted) {
-		return new String(encrypted);
+		byte[] iv = new byte[12];
+		for(int i=0;i<12;i++){
+			iv[i]=encrypted[i];
+		}
+		byte[] k = new byte[12];
+		for(int i=0;i<12;i++){
+			k[i]=(byte)(iv[i]^encrypted[i+12]^first_block[i]);
+		}
+
+		byte[] decrypted = new byte[encrypted.length-12];
+		for(int i=decrypted.length-1;i>=0;i--){
+			decrypted[i] = (byte)(k[i%12]^encrypted[i+12]^encrypted[i]);
+		}
+		return new String(decrypted);
 	}
 }
