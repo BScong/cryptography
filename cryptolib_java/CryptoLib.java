@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 // Compilation (CryptoLibTest contains the main-method):
 //   javac CryptoLibTest.java
 // Running:
@@ -27,7 +29,19 @@ public class CryptoLib {
 	 * Returns Euler's Totient for value "n".
 	 **/
 	public static int EulerPhi(int n) {
-		return -1;
+		ArrayList al = new ArrayList();
+		int produit = 1;
+		for(int i = 1; i < n; i++) {
+			if(GCD(n,i)==1)
+				al.add(i);
+		}
+		return al.size();
+	}
+
+	public static int GCD(int a, int b) {
+		if (b==0) 
+			return a;
+		return GCD(b,a%b);
 	}
 
 	/**
@@ -53,7 +67,11 @@ public class CryptoLib {
 	 * different output values the hash function can produce.
 	 **/
 	public static double HashCP(double n_samples, double size) {
-		return -1;
+		double probability = 1.0;
+		for(int i = 1; i <= n_samples; i++) {
+			probability = probability*(size-(i-1))/size;
+		}
+		return (1-probability);
 	}
 
 }
