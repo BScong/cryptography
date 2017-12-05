@@ -88,8 +88,17 @@ public class CryptoLib {
 	 * Returns 0 if "n" is a Fermat Prime, otherwise it returns the lowest
 	 * Fermat Witness. Tests values from 2 (inclusive) to "n/3" (exclusive).
 	 **/
-	public static int FermatPT(int n) {
-		return -1;
+	public static int FermatPT(int n) {	
+		for(int a=2;a<n/3;a++){
+			int composite = 1;
+			for(int i=0;i<n-1;i++){
+				composite=(composite*a)%n;
+			}
+			if(composite != 1){
+				return a;
+			}
+		}
+		return 0;
 	}
 
 	/**
