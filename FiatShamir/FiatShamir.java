@@ -61,22 +61,16 @@ public class FiatShamir {
 	 */
 	private static BigInteger recoverSecret(BigInteger N, BigInteger X,
 			ProtocolRun[] runs) {
-		
 		BigInteger sc0 = BigInteger.ZERO;
 		BigInteger sc1 = BigInteger.ZERO;
-		BigInteger x = BigInteger.ZERO;
-
 		for(int i=0;i<runs.length-1;i++){
 			for(int j=i+1;j<runs.length;j++){
 				if(runs[i].R.equals(runs[j].R)){
-					sc0=runs[i].c==0?runs[i].s:runs[j].s;
-					sc1=runs[i].c==1?runs[i].s:runs[j].s;
-					break;
+					sc0 = runs[i].c==0?runs[i].s:runs[j].s;
+					sc1 = runs[i].c==1?runs[i].s:runs[j].s;
 				}
 			}			
 		}
-
-		x=(sc1.multiply(sc0.modInverse(N))).mod(N);
-		return x;
+		return (sc1.multiply(sc0.modInverse(N))).mod(N);
 	}
 }

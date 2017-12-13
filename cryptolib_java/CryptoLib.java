@@ -64,13 +64,12 @@ public class CryptoLib {
 	 * Returns Euler's Totient for value "n".
 	 **/
 	public static int EulerPhi(int n) {
-		ArrayList al = new ArrayList();
-		int produit = 1;
+		int count = 0;
 		for(int i = 1; i < n; i++) {
 			if(GCD(n,i)==1)
-				al.add(i);
+				count++;
 		}
-		return al.size();
+		return count;
 	}
 
 	public static int GCD(int a, int b) {
